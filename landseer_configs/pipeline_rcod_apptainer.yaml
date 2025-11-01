@@ -1,0 +1,32 @@
+dataset:
+  name: cifar10
+  variant: clean
+
+model:
+  script: ./configs/model/config_model_resnet20.py
+  framework: pytorch
+
+pipeline:
+  pre_training:
+    tools:
+      - name: pre-xgbod
+        runtime: apptainer
+        apptainer:
+          image: ./pre_xgbod_v2.sif
+          command: python main.py
+
+  during_training:
+    tools:
+      - name: rcod
+        runtime: apptainer
+        apptainer:
+          image: ./rcod_landseer.sif
+          command: python ImageOD/score_datasets.py --input-dir /data --output /output
+
+  post_training:
+    tools:
+      - name: noop
+        runtime: apptainer
+        apptainer:
+          image: /share/landseer/containers/noop.sif
+          command: python main.py

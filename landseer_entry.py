@@ -3,7 +3,7 @@ import os
 import numpy as np
 import argparse
 from ImageOD.score_datasets import save_scores
-from config_model import config  # ← Landseer injects this file when running
+from config_model import config  # Landseer injects this file when running
 import torch
 
 def main():
@@ -27,7 +27,6 @@ def main():
     X_test = np.load(os.path.join(args.input_dir, "test_data.npy"))
     Y_test = np.load(os.path.join(args.input_dir, "test_labels.npy"))
 
-    # optionally preprocess or convert data before passing to your model
     print(f"Train set: {X_train.shape}, Test set: {X_test.shape}")
 
     # Run your RCOD OOD evaluation

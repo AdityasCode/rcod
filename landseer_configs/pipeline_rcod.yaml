@@ -1,0 +1,35 @@
+dataset:
+  name: cifar10
+  variant: clean
+
+model:
+  script: /home/$USER/Landseer/configs/model/config_model_resnet20.py
+  framework: pytorch
+
+pipeline:
+  pre_training:
+    tools:
+      - name: pre-xgbod
+        docker:
+          image: /home/$USER/pre_xgbod_v2.sif
+          command: python main.py
+  during_training:
+    tools:
+      - name: rcod
+        docker:
+          image: /home/$USER/rcod_landseer.sif
+          command: python ImageOD/score_datasets.py --input-dir /data --output /output
+
+post_training:
+  tools:
+    - name: noop
+      docker:
+        image: ghcr.io/landseer-project/post_noop:v1
+        command: python main.py
+
+deployment:
+  tools:
+    - name: noop
+      docker:
+        image: ghcr.io/landseer-project/deploy_noop:v1
+        command: python main.py
