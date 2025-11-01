@@ -1,0 +1,9 @@
+--- Starting Apptainer Job ---
+Job ID: 9851029
+Host: gilbreth-d000.rcac.purdue.edu
+Time: Fri Oct 31 10:55:47 PM EDT 2025
+Image: /scratch/gilbreth/gandh105/apptainer_imgs/rcod_v3.sif
+Data: /scratch/gilbreth/gandh105/landseer_data
+Output: /scratch/gilbreth/gandh105/landseer_out
+Checkpoints: /scratch/gilbreth/gandh105/checkpoints
+--- Job Finished at Fri Oct 31 10:55:52 PM EDT 2025 ---

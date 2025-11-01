@@ -1,0 +1,33 @@
+name: robust-cod
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+channel_priority: strict
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - -r requirements.txt
+  - numpy
+  - pandas
+  - scikit-learn
+  - pytorch=2.3
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1    # GPU support; remove or replace with 'cpuonly' if CPU-only
+  - faiss-gpu=1.9.0
+  - diffdist
+  - opencv
+  - imgaug
+  - gdown
+  - tqdm
+  - matplotlib
+  - seaborn
+  - pip:
+      - requests
+      - hydra-core
+      - omegaconf
+      - lightning          # if you're using pytorch-lightning
+      - tensorboard

@@ -1,0 +1,11 @@
+/.singularity.d/runscript: 3: source: not found
+
+CondaError: Run 'conda init' before 'conda activate'
+
+/.singularity.d/runscript: 6: cd: can't cd to /app/robust-conformal-od
+Traceback (most recent call last):
+  File "/app/landseer_entry.py", line 5, in <module>
+    from ImageOD.score_datasets import save_scores
+  File "/app/ImageOD/score_datasets.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

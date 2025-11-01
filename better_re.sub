@@ -1,0 +1,10 @@
+#!/bin/bash
+# FILENAME: run_experiment.sub
+echo "running run_exp"
+eval "$(/home/gandh105/miniconda3/bin/conda shell.bash hook)"
+conda activate robust-cod
+python ImageOD/score_datasets.py --save_path ./datasets_scores/cifar10_texture/n_train_2000_0.03/ \
+  --id_dataset cifar10 --ood_dataset texture --postprocess react \
+  --net_ckpt_path ./path_to_resnet20_cifar10_checkpoint.ckpt \
+  --net resnet20_32x32 --p_train 0.03 --n_train 2000
+

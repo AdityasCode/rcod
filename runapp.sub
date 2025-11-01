@@ -1,0 +1,41 @@
+#!/bin/bash
+#SBATCH --job-name=rcod_apptainer_job
+#SBATCH --output=logs/rcod_job_%j.out   # Log directory for standard output
+#SBATCH --error=logs/rcod_job_%j.err    # Log directory for standard error
+#SBATCH --time=12:00:00                # Time limit
+#SBATCH --gres=gpu:1                   # Request 1 GPU
+#SBATCH --cpus-per-task=4              # CPU cores
+#SBATCH --mem=24G                      # Memory
+
+echo "--- Starting Apptainer Job ---"
+echo "Job ID: $SLURM_JOB_ID"
+echo "Host: $(hostname)"
+echo "Time: $(date)"
+
+# --- Environment Setup ---
+
+export DATA_DIR=/scratch/gilbreth/$USER/landseer_data
+export OUT_DIR=/scratch/gilbreth/$USER/landseer_out
+export CKPT_DIR=/scratch/gilbreth/$USER/checkpoints
+
+echo "Image: $IMGS/rcod_v3.sif"
+echo "Data: $DATA_DIR"
+echo "Output: $OUT_DIR"
+echo "Checkpoints: $CKPT_DIR"
+
+# --- Run the Container ---
+
+# We use 'apptainer run' to execute the %runscript from your .def file.
+# The --nv flag connects the container to the host GPU requested by SLURM.
+apptainer run \
+    --nv \
+    -B $DATA_DIR:/data \
+    -B $OUT_DIR:/output \
+    -B $CKPT_DIR:/app/checkpoints \
+    -B $rc/ImageOD/score_datasets.py:/app/ImageOD/score_datasets.py
+    $IMGS/rcod_v3.sif \
+    --input-dir /data \
+    --output /output \
+    --net_ckpt_path /app/checkpoints/resnet20_cifar10.ckpt
+
+echo "--- Job Finished at $(date) ---"

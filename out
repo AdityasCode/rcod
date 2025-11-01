@@ -1,0 +1,8 @@
+apptainer exec --nv \
+  -B /scratch/gilbreth/$USER/landseer_data:/data \
+  -B /scratch/gilbreth/$USER/landseer_out:/output \
+  -B /scratch/gilbreth/$USER/checkpoints:/app/checkpoints \
+  $IMGS/rcod.sif \
+    --input-dir $APPTAINER_TMPDIR/data \
+    --output $APPTAINER_TMPDIR/output \
+    --net_ckpt_path /app/checkpoints/resnet20_cifar10.ckpt

@@ -1,0 +1,8 @@
+changed the default arg for model to python main.py to be IF not none
+diffdist and faiss gpu and pytorch cuda gpu necessary in req.yml
+fixed req.yml to install pkgs and gpu versions
+created a working job sub script
+installed checkpts
+fixed technical errors
+cleaned up logs
+

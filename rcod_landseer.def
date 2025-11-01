@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: python:3.10-slim
+
+%labels
+    org.opencontainers.image.dataset="CIFAR-10"
+    org.opencontainers.image.defense_stage="during_training"
+    org.opencontainers.image.defense_type="differential_privacy"
+
+%post
+    set -e
+    apt-get update
+    apt-get install -y --no-install-recommends tini
+    rm -rf /var/lib/apt/lists/*
+    # deps similar to the Dockerfile
+    pip install --no-cache-dir torch torchvision opacus pandas numpy tqdm scikit-learn
+    # app layout
+    mkdir -p /app
+    # if your build context has ImageOD/score_datasets.py, copy it during build:
+    # (works when you build from the folder that contains ImageOD/score_datasets.py)
+    cp /tmp/build/ImageOD/score_datasets.py /app/  || true
+
+%files
+    # copies from build context into image (adjust paths as needed)
+    ImageOD/score_datasets.py /app/ImageOD/score_datasets.py
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PIP_NO_CACHE_DIR=1
+
+%runscript
+    # default command (Landseer will override with `command:` from YAML)
+    exec /usr/bin/tini -- python /app/ImageOD/score_datasets.py --input-dir /data --output /output
+

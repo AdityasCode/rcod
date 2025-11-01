@@ -1,0 +1,23 @@
+name: robust-cod
+channels:
+- pytorch
+- defaults
+- conda-forge
+- anaconda
+dependencies:
+- python>=3.5
+- faiss
+- diffdist
+- pytorch
+- graphviz
+- matplotlib
+- numpy
+- scikit-learn
+- scikit-image
+- scipy
+- torchvision
+- tqdm
+- seaborn
+- pandas
+- parse
+- jupyter
