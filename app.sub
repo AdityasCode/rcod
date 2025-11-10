@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=appt_bld
+#SBATCH --output=/scratch/gilbreth/gandh105/logs/run_exp_%j.out
+#SBATCH --error=/scratch/gilbreth/gandh105/logs/run_exp_%j.err
+#SBATCH --time=02:00:00
+#SBATCH --gres=gpu:1           # request 1 GPU (adjust if CPU-only)
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+
+: <<'block'
+apptainer build --fakeroot \
+    /scratch/gilbreth/$USER/apptainer_imgs/base_v4.sif \
+    /scratch/gilbreth/$USER/apptainer_imgs/defs/base_v4.def
+
+if [ $? -ne 0 ]; then
+    echo "FATAL: Base build FAILED. Aborting final build."
+    exit 1
+fi
+block
+
+echo "--- Building Final Image (rcod_v11.sif) ---"
+apptainer build --fakeroot \
+    /scratch/gilbreth/$USER/apptainer_imgs/v13.sif \
+    /scratch/gilbreth/$USER/apptainer_imgs/defs/final_v2.def
+
+echo "--- Job Complete, exit code $? ---"

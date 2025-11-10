@@ -1,0 +1,56 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%post
+    # Install prerequisites for micromamba and package building
+    apt-get update && apt-get install -y wget bzip2 ca-certificates zstd curl
+
+    # --- Create new dependency locations ---
+    mkdir -p /opt/mamba-config
+    mkdir -p /opt/openood
+
+    # Download and install micromamba binary
+    echo "--- Installing micromamba ---"
+    cd /tmp
+    
+    # Download, extract, and move the binary to /usr/local/bin
+    wget -qO- https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
+    
+    mv micromamba /usr/local/bin/micromamba
+    chmod a+x /usr/local/bin/micromamba
+
+    # Set up the root prefix (where envs will live)
+    export MAMBA_ROOT_PREFIX=/opt/mamba
+    mkdir -p $MAMBA_ROOT_PREFIX
+    
+    echo "--- Creating micromamba environment (this will be fast) ---"
+    # Create the environment from the file in its new location
+    micromamba create -n rcod-env -f /opt/mamba-config/requirements.yml -y
+    
+    # Clean up
+    micromamba clean -afy
+    
+    # Make env readable by all users
+    chmod -R a+rX $MAMBA_ROOT_PREFIX
+
+    echo "--- Base image build complete ---"
+
+%files
+    # Copy requirements to its new, clean location
+    /scratch/gilbreth/gandh105/rcod-build/requirements.yml /opt/mamba-config/requirements.yml
+    
+    # Copy the openood repo root to its new dependency location
+    /scratch/gilbreth/gandh105/rcod-build/openood /opt/openood
+
+%environment
+    # Micromamba env setup
+    export MAMBA_ROOT_PREFIX=/opt/mamba
+    export MAMBA_EXE=/usr/local/bin/micromamba
+    
+    # Activate the rcod-env environment by default
+    export PATH=$MAMBA_ROOT_PREFIX/envs/rcod-env/bin:$PATH
+    export LD_LIBRARY_PATH=$MAMBA_ROOT_PREFIX/envs/rcod-env/lib:$LD_LIBRARY_PATH
+    
+    # Add the openood repo root to the PYTHONPATH
+    export PYTHONPATH=/opt/openood:$PYTHONPATH
+    export PYTHONDONTWRITEBYTECODE=1

@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=appt_bld
+#SBATCH --output=/scratch/gilbreth/gandh105/logs/run_exp_%j.out
+#SBATCH --error=/scratch/gilbreth/gandh105/logs/run_exp_%j.err
+#SBATCH --time=02:00:00
+#SBATCH --gres=gpu:1           # request 1 GPU (adjust if CPU-only)
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+
+apptainer exec \
+    -B $APPTAINER_TMPDIR/data:/data \
+    -B $APPTAINER_TMPDIR/output:/output \
+    $IMGS/v12.sif \
+    python -m ImageOD.score_datasets --input-dir /data --output /output --net_ckpt_path /app/resnet20_cifar10.ckpt

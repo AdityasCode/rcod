@@ -1,0 +1,44 @@
+Bootstrap: localimage
+From: /scratch/gilbreth/gandh105/apptainer_imgs/base_v4.sif
+
+%labels
+    org.opencontainers.image.authors="gandh105@purdue.edu"
+
+%help
+    RCOD Container used by Landseer
+
+%files
+    # Copy *only* your application files to /app
+    # Note: openood and requirements.yml are NOT in this list
+    /home/gandh105/robust-conformal-od/ImageOD /app/ImageOD
+    /home/gandh105/robust-conformal-od/landseer_entry.py /app/landseer_entry.py
+    /home/gandh105/robust-conformal-od/resnet20_cifar10.ckpt /app/resnet20_cifar10.ckpt
+    /home/gandh105/robust-conformal-od/plot_main.py /app/plot_main.py
+    /home/gandh105/robust-conformal-od/config_model.py /app/config_model.py
+    /home/gandh105/robust-conformal-od/main_func.py /app/main_func.py
+    /home/gandh105/robust-conformal-od/main.py /app/main.py
+    /home/gandh105/robust-conformal-od/run_exp.py /app/run_exp.py
+    /home/gandh105/robust-conformal-od/datasets /app/datasets
+    /home/gandh105/robust-conformal-od/datasets_scores /app/datasets_scores
+    /home/gandh105/robust-conformal-od/check_id_accuracy.py /app/check_id_accuracy.py
+    /home/gandh105/robust-conformal-od/algo.py /app/algo.py
+    /home/gandh105/robust-conformal-od/analyze_scores.py /app/analyze_scores.py
+    /home/gandh105/robust-conformal-od/utils.py /app/utils.py
+    /home/gandh105/robust-conformal-od/utils_plot.py /app/utils_plot.py
+
+%post
+    # This section now *only* creates /app
+    mkdir -p /app
+    echo "[RCOD] Final image build complete."
+
+%environment
+    # This inherits PYTHONPATH=/opt/openood:$... from base
+    # We PREPEND /app to it.
+    export PYTHONPATH=/app:$PYTHONPATH
+    export HF_HOME=/scratch/$USER/cache
+
+%runscript
+    #!/bin/bash
+    # The Conda env is already active from the %environment section
+    cd /app
+    exec python /app/landseer_entry.py "$@"
