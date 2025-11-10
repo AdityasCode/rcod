@@ -6,3 +6,6 @@ installed checkpts
 fixed technical errors
 cleaned up logs
 
+11/2
+given that rcod is post hoc, it should already be model agnostic given the input directly
+landseer now takes output, which becomes save_path, which is converted to id_file, used to save each result

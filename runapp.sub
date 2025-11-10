@@ -18,7 +18,7 @@ export DATA_DIR=/scratch/gilbreth/$USER/landseer_data
 export OUT_DIR=/scratch/gilbreth/$USER/landseer_out
 export CKPT_DIR=/scratch/gilbreth/$USER/checkpoints
 
-echo "Image: $IMGS/rcod_v3.sif"
+echo "Image: $IMGS/rcod_v5.sif"
 echo "Data: $DATA_DIR"
 echo "Output: $OUT_DIR"
 echo "Checkpoints: $CKPT_DIR"
@@ -33,9 +33,8 @@ apptainer run \
     -B $OUT_DIR:/output \
     -B $CKPT_DIR:/app/checkpoints \
     -B $rc/ImageOD/score_datasets.py:/app/ImageOD/score_datasets.py
-    $IMGS/rcod_v3.sif \
+    $IMGS/rcod_v5.sif \
     --input-dir /data \
     --output /output \
-    --net_ckpt_path /app/checkpoints/resnet20_cifar10.ckpt
 
 echo "--- Job Finished at $(date) ---"

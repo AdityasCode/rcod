@@ -5,7 +5,6 @@
 # Additional implementations have been added to the file
 ######################################################################################################################
 
-import torch
 import numpy as np
 import argparse
 import os
@@ -15,6 +14,7 @@ from ImageOD.c_eval import cEvaluator
 from openood.networks import ResNet18_32x32
 from ImageOD.models.resnet import resnet20
 from collections import OrderedDict
+import torch
 #from config_model import config
 #model = config()
 dataset2classes = {'cifar10': 10, 'cifar100': 100, 'imagenet': 1000}
@@ -66,8 +66,7 @@ def save_scores(args):
     else:
         print(f"[RCOD] No input-dir found at {args.input_dir}, using default datasets")
 
-    if args.save_path is None:
-        args.save_path = args.output
+    args.save_path = args.output
     # load the model
     net = get_network(args.net, args.net_ckpt_path, args.id_dataset)
     evaluator = cEvaluator(
@@ -124,8 +123,8 @@ def get_args():
     parser.add_argument('--n_train', type=int, default=2000)
     parser.add_argument('--p_train', type=float, default=0.03)
     args = parser.parse_args()
-    if args.save_path is None:
-        raise ValueError('Save path must be specified.')
+    args.save_path = args.output
+        #raise ValueError('Save path must be specified.')
     if not os.path.isfile(args.net_ckpt_path):
         raise ValueError('Checkpoint file path does not exsit.')
     return args

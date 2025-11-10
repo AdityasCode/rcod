@@ -1,6 +1,0 @@
-#!/bin/bash
-# FILENAME: run_experiment.sub
-echo "running run_exp"
-eval "$(/home/gandh105/miniconda3/bin/conda shell.bash hook)"
-conda activate robust-cod
-python main.py

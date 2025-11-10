@@ -1,10 +1,9 @@
 # landseer_entry.py
 import os
-import numpy as np
 import argparse
-from ImageOD.score_datasets import save_scores
-from config_model import config  # Landseer injects this file when running
 import torch
+from ImageOD.score_datasets import save_scores
+from config_model import config
 
 def main():
     parser = argparse.ArgumentParser()
@@ -19,17 +18,14 @@ def main():
     parser.add_argument("--net-ckpt-path", type=str, default="./resnet20_cifar10.ckpt")
     args = parser.parse_args()
 
-    model = config()  # defined by Landseer when pipeline runs
+    # Instantiate model if needed by RCOD
+    model = config()
 
-    print("Loading data from:", args.input_dir)
-    X_train = np.load(os.path.join(args.input_dir, "data.npy"))
-    Y_train = np.load(os.path.join(args.input_dir, "labels.npy"))
-    X_test = np.load(os.path.join(args.input_dir, "test_data.npy"))
-    Y_test = np.load(os.path.join(args.input_dir, "test_labels.npy"))
+    os.makedirs(args.output, exist_ok=True)
 
-    print(f"Train set: {X_train.shape}, Test set: {X_test.shape}")
+    if not torch.cuda.is_available():
+        print("[RCOD] WARNING: CUDA not available.")
 
-    # Run your RCOD OOD evaluation
     save_scores(argparse.Namespace(
         save_path=args.output,
         net=args.net,
@@ -41,7 +37,7 @@ def main():
         p_train=args.p_train,
     ))
 
-    print("Results written to:", args.output)
+    print("[RCOD] Completed. Results written to:", args.output)
 
 if __name__ == "__main__":
     main()

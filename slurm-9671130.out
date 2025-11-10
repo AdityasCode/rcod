@@ -1,7 +1,0 @@
-running run_exp
-/var/spool/slurm/job9671130/slurm_script: line 4: /home/gandh105/miniconda3/bin/conda: No such file or directory
-/var/spool/slurm/job9671130/slurm_script: line 5: conda: command not found
-cuda:0
-cuda:0
-  0%|          | 0/100 [00:00<?, ?it/s] 22%|██▏       | 22/100 [00:00<00:00, 219.12it/s] 44%|████▍     | 44/100 [00:00<00:00, 191.42it/s] 64%|██████▍   | 64/100 [00:00<00:00, 185.55it/s] 83%|████████▎ | 83/100 [00:00<00:00, 181.00it/s]100%|██████████| 100/100 [00:00<00:00, 181.48it/s]
-slurmstepd: error: *** JOB 9671130 ON gilbreth-d006 CANCELLED AT 2025-10-02T00:34:10 ***

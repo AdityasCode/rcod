@@ -1,13 +1,0 @@
-  0%|          | 0/100 [00:00<?, ?it/s] 49%|████▉     | 49/100 [00:00<00:00, 477.32it/s] 99%|█████████▉| 99/100 [00:00<00:00, 489.89it/s]100%|██████████| 100/100 [00:00<00:00, 488.95it/s]
-Traceback (most recent call last):
-  File "/home/gandh105/robust-conformal-od/main.py", line 144, in <module>
-    main(args)
-  File "/home/gandh105/robust-conformal-od/main.py", line 53, in main
-    results = run_comparison(seed=args.seed, n_seeds=args.n_seeds, mu_outlier=args.mu_outlier,
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/gandh105/robust-conformal-od/main_func.py", line 93, in run_comparison
-    raise ValueError(f'{job_desc}Deleting tmp results dir...\nThe following run falied to save results file:\n{all_commands[0]}')
-ValueError: Failed job id bye..
-Deleting tmp results dir...
-The following run falied to save results file:
-bash ./create_tmp_empty.sh "python ./main.py --exp_type None --n_seeds 1 --level 0.01 --model None --n_cal 1000 --p_cal 0.05 --initial_labeled 0 --n_train 1000 --p_train 0.05 --n_test 1000 --p_test 0.05 --dataset shuttle --dataset_version 1 --dataset_path None --outlr_dataset None --mu_outlier 2.5 --n_features 1  --save_path /home/gandh105/robust-conformal-od/shuttle_1_initial_0_cal_1000_p_0.05_test_1000_p_None_q_0.01/tmp_results/tmpnmrbmwgf/   --full_save_path --no_distribute --seed 670488 --max_samples auto --n_estimators 100 --kernel_svm rbf"
