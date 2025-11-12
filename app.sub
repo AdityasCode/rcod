@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=appt_bld
-#SBATCH --output=/scratch/gilbreth/gandh105/logs/run_exp_%j.out
-#SBATCH --error=/scratch/gilbreth/gandh105/logs/run_exp_%j.err
+#SBATCH --output=/home/gandh105/robust-conformal-od/logs/run_exp_%j.out
+#SBATCH --error=/home/gandh105/robust-conformal-od/logs/run_exp_%j.err
 #SBATCH --time=02:00:00
 #SBATCH --gres=gpu:1           # request 1 GPU (adjust if CPU-only)
 #SBATCH --cpus-per-task=4
@@ -20,7 +20,8 @@ block
 
 echo "--- Building Final Image (rcod_v11.sif) ---"
 apptainer build --fakeroot \
-    /scratch/gilbreth/$USER/apptainer_imgs/v13.sif \
+    /scratch/gilbreth/$USER/apptainer_imgs/v16.sif \
     /scratch/gilbreth/$USER/apptainer_imgs/defs/final_v2.def
 
-echo "--- Job Complete, exit code $? ---"
+echo "--- Job Complete, exit code $?, Running Test ---"
+sbatch -A zghodsi --partition=a30 --gpus-per-node=1 --time=120:00:00 --mem=50G /home/gandh105/robust-conformal-od/run.sub

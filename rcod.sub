@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=appt_bld
+#SBATCH --job-name=run_rcod
 #SBATCH --output=/scratch/gilbreth/gandh105/logs/run_exp_%j.out
 #SBATCH --error=/scratch/gilbreth/gandh105/logs/run_exp_%j.err
 #SBATCH --time=02:00:00
@@ -10,5 +10,5 @@
 apptainer exec \
     -B $APPTAINER_TMPDIR/data:/data \
     -B $APPTAINER_TMPDIR/output:/output \
-    $IMGS/v12.sif \
+    $IMGS/v14.sif \
     python -m ImageOD.score_datasets --input-dir /data --output /output --net_ckpt_path /app/resnet20_cifar10.ckpt
