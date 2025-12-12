@@ -18,9 +18,9 @@ if [ $? -ne 0 ]; then
 fi
 block
 
-echo "--- Building Final Image (rcod_v11.sif) ---"
+echo "--- Building Final Image (v23.sif) ---"
 apptainer build --fakeroot \
-    /scratch/gilbreth/$USER/apptainer_imgs/v16.sif \
+    /scratch/gilbreth/$USER/apptainer_imgs/v23.sif \
     /scratch/gilbreth/$USER/apptainer_imgs/defs/final_v2.def
 
 echo "--- Job Complete, exit code $?, Running Test ---"
